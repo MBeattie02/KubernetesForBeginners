@@ -1,0 +1,90 @@
+kubectl get nodes
+Kubectl get namespaces
+Kubectl get pods —namespace=kube-system
+Kubectl run nginx —image=nginx
+Kubectl get pods
+Kubectl describe pod nginx
+docker ps | grep nginx
+
+Docker container name . Can go inside container
+docker exec -it 5fa154c27c14 sh
+hostname 
+hostname -i
+
+
+Shows IP aswell
+kubectl get pods -o wide
+
+kubectl delete pod nginx
+
+Use k instead of kubectl
+alias k=“kubectl”
+
+Creating and exploring Deployment
+kubectl create deployment nginx-deployment --image=nginx
+
+kubectl describe deployment nginx-deployment
+
+kubectl describe pod nginx-deployment-5fbdf85c67-zwrjs
+
+
+Scaling Deployment
+kubectl scale deployment nginx-deployment --replicas=5
+Kubectl get pods
+Kubectl scale deployment nginx-deployment - -replicas=3
+
+Service Creation
+
+kubectl expose deployment nginx-deployment - -port=8080 - -target-port=80
+Kubectl get services
+
+Connecting to deployment using ClusterIP Service
+ssh docker@<IP OF NODE>
+Curl<clusterIP>:8080
+
+Deleting Deployment and Service
+Kubectl delete deployment nginx-deployment
+Kubectl delete service nginx-deployment
+
+Running Node.js Application
+
+docker build . -t mabeatti/k8s-web-hello
+docker images | grep k8s-web
+docker push mabeatti/k8s-web-hello
+kubectl create deployment k8s-web-hello --image=mabeatti/k8s-web-hello
+kubectl expose deployment k8s-web-hello --port=3000
+Kubectl get services
+kubectl get nodes -o=jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}'
+Ssh docker@ip
+Curl<ip of deployment>:3000
+
+	scale Deployment
+Kubectl scale deployment k8s-web-hello —replicas=4
+Kubectl delete sec k8s-web-hello
+Kubectl expose deployment k8s-web-hello —type=NodePort —port=3000
+Kubectl delete service k8s-web-hello
+
+	LoadBalancer Service
+Kubectl expose deployment k8s-web-hello —type=LoadBalancer —port=3000
+
+
+YAML SPECIFICATION FILES
+Kubectl delete all —all
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml 
+
+Multiple Deployments
+Kubectl delete -f deployment.yaml -f service.yaml
+
+docker build . -t mabeatti/k8s-web-to-nginx
+
+Kubectl apply -f k8s-web-to-nginx -f nginx.yaml
+
+
+Kubectl get pods
+
+Kubectl exec k8s-web-to-nginx-7449558c5-87j82 - - nslookup nginx
+
+Kubectl get service
+
+Kubectl delete -f nginx.yaml -f k8s-web-to-nginx.yaml
